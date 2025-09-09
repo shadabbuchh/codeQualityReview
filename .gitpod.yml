@@ -1,0 +1,31 @@
+# Gitpod configuration file
+# https://www.gitpod.io/docs/references/gitpod-yml
+
+# List the start up tasks. Learn more: https://www.gitpod.io/docs/configure/workspaces/tasks
+tasks:
+  - name: Install dependencies
+    init: |
+      cd app_b8b8574b-6bdc-4be5-9268-7317192a5beb
+      pnpm install
+    command: |
+      echo "Dependencies installed. Ready to start development!"
+      cd frontend
+      pnpm run dev
+
+# List the ports to expose. Learn more: https://www.gitpod.io/docs/configure/workspaces/ports
+ports:
+  - name: Frontend
+    port: 5173
+    onOpen: open-browser
+    visibility: public
+  - name: Backend
+    port: 3000
+    onOpen: ignore
+    visibility: public
+
+# Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint
+    - esbenp.prettier-vscode
+    - bradlc.vscode-tailwindcss

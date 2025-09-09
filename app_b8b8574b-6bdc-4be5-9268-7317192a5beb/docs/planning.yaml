@@ -1,0 +1,147 @@
+plan_items:
+- description: 'The system shall show a single landing workspace where users can access
+    API testing and database management tools.
+
+    When a user selects a database connection, the system shall display available
+    schemas, tables, and relationships.
+
+    While the user is composing an API request or SQL query, the system shall provide
+    an editable request/query editor and a results pane.
+
+    Where data validation rules are available, the system shall surface validation
+    warnings before allowing data changes.'
+  id: '1'
+  name: Workspace — API & Database Explorer
+  page_name: Workspace
+  sub_items:
+  - description: When the workspace opens, the system shall list configured database
+      and API connections and let the user select one to work with.
+    id: '1.1'
+    name: Connection picker
+  - description: While the user is editing, the system shall provide separate tabs
+      for REST requests (method, URL, headers, body) and SQL queries and keep unsaved
+      drafts.
+    id: '1.2'
+    name: Request/Query editor
+  - description: When a request or query is executed, the system shall show the raw
+      response, formatted view, and execution metadata (status, time).
+    id: '1.3'
+    name: Response / Results pane
+  - description: Where a table is selected, the system shall show Create, Read, Update,
+      Delete shortcuts that prefill SQL or API templates for the selected table.
+    id: '1.4'
+    name: Quick CRUD buttons
+- description: The system shall provide a dedicated interface to assemble, save, run,
+    and debug RESTful API requests and view histories.
+  id: '2'
+  name: API Test Runner
+  page_name: ApiTestRunner
+  sub_items:
+  - description: ''
+    id: '2.1'
+    name: Saved requests
+- description: The system shall provide a full-featured SQL editor where users can
+    write, format, run, and save queries against connected databases.
+  id: '3'
+  name: SQL Editor
+  page_name: SqlEditor
+  sub_items:
+  - description: ''
+    id: '3.1'
+    name: Query formatting and execution
+  - description: ''
+    id: '3.2'
+    name: Result grid with inline edit
+- description: The system shall render an interactive diagram of database schemas
+    and table relationships allowing users to explore and navigate structures.
+  id: '4'
+  name: Schema Visualizer
+  page_name: SchemaVisualizer
+  sub_items:
+  - description: ''
+    id: '4.1'
+    name: Interactive ER diagram
+  - description: ''
+    id: '4.2'
+    name: Table detail panel
+- description: The system shall let users create, modify, and delete tables and columns
+    through a friendly UI with safeguards for integrity.
+  id: '5'
+  name: Table Manager
+  page_name: TableManager
+  sub_items:
+  - description: ''
+    id: '5.1'
+    name: Create/alter table wizard
+  - description: ''
+    id: '5.2'
+    name: Manage indexes and constraints
+  - description: ''
+    id: '5.3'
+    name: Relationship editor
+- description: The system shall enforce and expose validation rules and integrity
+    checks whenever users insert or update data.
+  id: '6'
+  name: Data Validation & Integrity
+  page_name: DataValidation
+  sub_items:
+  - description: ''
+    id: '6.1'
+    name: Validation rules UI
+  - description: ''
+    id: '6.2'
+    name: Preflight checks before commit
+  - description: ''
+    id: '6.3'
+    name: Conflict detection and resolution
+- description: The system shall provide application-level controls for data access,
+    encryption indicators, and audit logging to protect privacy and integrity.
+  id: '7'
+  name: Security & Privacy Controls
+  page_name: SecurityControls
+  sub_items:
+  - description: ''
+    id: '7.1'
+    name: Access level settings
+  - description: ''
+    id: '7.2'
+    name: Audit logs and activity view
+  - description: ''
+    id: '7.3'
+    name: Masking and export controls
+- description: The system shall let users group requests, queries, connections and
+    settings into projects and environment profiles for easy switching.
+  id: '8'
+  name: Project & Environment Management
+  page_name: ProjectEnvironments
+  sub_items:
+  - description: ''
+    id: '8.1'
+    name: Environment variables
+  - description: ''
+    id: '8.2'
+    name: Project folders and sharing
+- description: The system shall maintain histories of executed requests, queries,
+    and schema changes and allow restore to previous states.
+  id: '9'
+  name: History, Versioning & Backup
+  page_name: HistoryVersioning
+  sub_items:
+  - description: ''
+    id: '9.1'
+    name: Request/query history
+  - description: ''
+    id: '9.2'
+    name: Schema and data snapshots
+- description: The system shall provide export options and integrations so users can
+    move requests, queries, and data to other tools or CI pipelines.
+  id: '10'
+  name: Integrations & Export
+  page_name: Integrations
+  sub_items:
+  - description: ''
+    id: '10.1'
+    name: Export requests and collections
+  - description: ''
+    id: '10.2'
+    name: Webhook and CI triggers

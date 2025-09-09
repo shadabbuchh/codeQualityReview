@@ -1,0 +1,792 @@
+client:
+  components:
+    entities:
+    - description: Displays a single connection with status and name.
+      entity: Connection
+      name: ConnectionCard
+      props:
+      - connection:Connection
+    - description: Displays schemas, tables, and relationships as a collapsible tree.
+      entity: Schema
+      name: SchemaTree
+      props:
+      - schemas:Schema[]
+      - tables:Table[]
+      - onSelectTable:function
+    - description: Displays details, columns, and relationships for selected table.
+      entity: Table
+      name: TableInfoPanel
+      props:
+      - table:Table
+    - description: Displays a draft query/request with validation state.
+      entity: RequestDraft
+      name: DraftListItem
+      props:
+      - draft:RequestDraft
+    features:
+    - description: Logic for selecting/activating a connection and loading schema
+        tree.
+      entities:
+      - ConnectionCard
+      - SchemaTree
+      feature: workspace-connection-picker
+      name: SelectConnection
+      props:
+      - connections:Connection[]
+      - onSelect:function
+      shared:
+      - StatusIndicator
+    - description: Draft persistence and validation for the REST/SQL editors.
+      entities:
+      - DraftListItem
+      feature: workspace-editor-tabs
+      name: EditRequestOrQuery
+      props:
+      - draft:RequestDraft
+      - onChange:function
+      shared:
+      - Editor
+      - Tabs
+    - description: Surface validation warnings and block execution if necessary.
+      entities:
+      - DraftListItem
+      feature: workspace-editor-tabs
+      name: ValidateBeforeExecute
+      props:
+      - draft:RequestDraft
+      - warnings:ValidationWarning[]
+      shared:
+      - Editor
+    - description: Display raw/formatted/metadata results after execution.
+      entities: []
+      feature: workspace-results-pane
+      name: ShowResultsPane
+      props:
+      - result:object
+      shared:
+      - StatusIndicator
+    - description: Prefill editor with CRUD templates for selected table.
+      entities:
+      - TableInfoPanel
+      feature: workspace-quick-crud
+      name: QuickCrudPrefill
+      props:
+      - table:Table
+      - onPrefill:function
+      shared:
+      - Editor
+    shared:
+    - category: ui
+      description: Generic code editor with syntax highlighting and validation support.
+      name: Editor
+      props:
+      - value:string
+      - onChange:function
+      - language:string
+      - validationWarnings:ValidationWarning[]
+    - category: ui
+      description: Tab navigation for REST/SQL editor.
+      name: Tabs
+      props:
+      - tabs:string[]
+      - activeTab:string
+      - onTabChange:function
+    - category: ui
+      description: Connection or result status visual.
+      name: StatusIndicator
+      props:
+      - status:string
+    - category: api
+      description: API client for workspace endpoints, generated from OpenAPI.
+      name: RequestApiClient
+      props: []
+    widgets:
+    - description: Sidebar with connections, schema browser, and status.
+      entities:
+      - ConnectionCard
+      - SchemaTree
+      features:
+      - SelectConnection
+      name: ConnectionPickerWidget
+      props:
+      - connections:Connection[]
+      - schemas:Schema[]
+      - tables:Table[]
+      shared:
+      - StatusIndicator
+    - description: Tabbed editor for REST and SQL with draft support.
+      entities:
+      - DraftListItem
+      features:
+      - EditRequestOrQuery
+      - ValidateBeforeExecute
+      name: EditorTabsWidget
+      props:
+      - draft:RequestDraft
+      - onTabChange:function
+      shared:
+      - Editor
+      - Tabs
+    - description: Panel for raw/formatted/metadata results and validation warnings.
+      entities: []
+      features:
+      - ShowResultsPane
+      name: ResultsPaneWidget
+      props:
+      - result:object
+      - metadata:object
+      shared:
+      - StatusIndicator
+    - description: Quick CRUD toolbar for tables, prepopulating editor templates.
+      entities:
+      - TableInfoPanel
+      features:
+      - QuickCrudPrefill
+      name: QuickCrudWidget
+      props:
+      - table:Table
+      shared:
+      - Editor
+  pages:
+  - description: Unified workspace for API/database exploration, request/query editing,
+      schema browsing, and results viewing.
+    queries:
+    - getConnections
+    - getConnectionSchemas
+    - getTablesForSchema
+    - getTableById
+    - getQuickCrudTemplates
+    - getDraftById
+    route: /workspace
+    title: Workspace
+    widgets:
+    - ConnectionPickerWidget
+    - EditorTabsWidget
+    - ResultsPaneWidget
+    - QuickCrudWidget
+  stores:
+  - actions:
+    - fetchConnections()
+    - selectConnection(id)
+    - updateStatus(status)
+    description: Holds list of connections, current selection, and status.
+    layer: entities
+    name: connectionsStore
+    state_shape:
+    - name: connections
+      type: Connection[]
+    - name: selectedConnectionId
+      type: string | null
+    - name: status
+      type: '''idle'' | ''loading'' | ''error'''
+  - actions:
+    - fetchSchemas(connectionId)
+    description: Holds schemas for the selected connection.
+    layer: entities
+    name: schemasStore
+    state_shape:
+    - name: schemas
+      type: Schema[]
+    - name: loading
+      type: boolean
+    - name: error
+      type: string | null
+  - actions:
+    - fetchTables(schemaId)
+    - selectTable(id)
+    description: Holds tables for the selected schema and selection state.
+    layer: entities
+    name: tablesStore
+    state_shape:
+    - name: tables
+      type: Table[]
+    - name: selectedTableId
+      type: string | null
+    - name: loading
+      type: boolean
+    - name: error
+      type: string | null
+  - actions:
+    - createDraft(input)
+    - updateDraft(id, input)
+    - deleteDraft(id)
+    - validateDraft(id)
+    - selectDraft(id)
+    description: Manages REST/SQL drafts, current editor content, validation warnings.
+    layer: features
+    name: draftsStore
+    state_shape:
+    - name: drafts
+      type: RequestDraft[]
+    - name: currentDraftId
+      type: string | null
+    - name: validationWarnings
+      type: ValidationWarning[]
+    - name: loading
+      type: boolean
+    - name: error
+      type: string | null
+  - actions:
+    - setResult(result)
+    - setFormatted(formatted)
+    - setMetadata(metadata)
+    - setLoading(flag)
+    - setError(error)
+    description: Holds result/response, formatted view, and metadata after execution.
+    layer: widgets
+    name: resultsStore
+    state_shape:
+    - name: rawResult
+      type: object | null
+    - name: formattedResult
+      type: object | null
+    - name: metadata
+      type: object | null
+    - name: loading
+      type: boolean
+    - name: error
+      type: string | null
+domains:
+- business_rules:
+  - Each Connection must have a unique name per user (if multi-user in future)
+  - Table relationships must refer to valid tables within the same or referenced schemas
+  - ValidationWarnings must be surfaced before a draft can be executed or saved as
+    final
+  - RequestDrafts are preserved until deleted explicitly or replaced by new saves
+  - CRUD template generation is contextual to the selected Table and operation
+  - Timestamps (createdAt/updatedAt) are indexed; update triggers fire on UPDATE
+  description: Domain for workspace management, connection selection, schema browsing,
+    request/query editing, execution, and CRUD shortcuts.
+  models:
+  - description: Represents a configured API or database connection.
+    fields:
+    - name: id
+      nullable: false
+      pk: true
+      type: uuid
+    - name: name
+      nullable: false
+      pk: false
+      type: varchar(100)
+    - name: type
+      nullable: false
+      pk: false
+      type: enum('database','api')
+    - name: config
+      nullable: false
+      pk: false
+      type: jsonb
+    - name: status
+      nullable: false
+      pk: false
+      type: enum('active','error','disconnected')
+    - name: createdAt
+      nullable: false
+      pk: false
+      type: timestamp with time zone
+    - name: updatedAt
+      nullable: false
+      pk: false
+      type: timestamp with time zone
+    name: Connection
+  - description: Database schema under a connection.
+    fields:
+    - name: id
+      nullable: false
+      pk: true
+      type: uuid
+    - name: connectionId
+      nullable: false
+      pk: false
+      type: uuid
+    - name: name
+      nullable: false
+      pk: false
+      type: varchar(100)
+    - name: createdAt
+      nullable: false
+      pk: false
+      type: timestamp with time zone
+    - name: updatedAt
+      nullable: false
+      pk: false
+      type: timestamp with time zone
+    name: Schema
+  - description: Database table representation.
+    fields:
+    - name: id
+      nullable: false
+      pk: true
+      type: uuid
+    - name: schemaId
+      nullable: false
+      pk: false
+      type: uuid
+    - name: name
+      nullable: false
+      pk: false
+      type: varchar(100)
+    - name: columns
+      nullable: false
+      pk: false
+      type: jsonb
+    - name: relationships
+      nullable: false
+      pk: false
+      type: jsonb
+    - name: validationRules
+      nullable: true
+      pk: false
+      type: jsonb
+    - name: createdAt
+      nullable: false
+      pk: false
+      type: timestamp with time zone
+    - name: updatedAt
+      nullable: false
+      pk: false
+      type: timestamp with time zone
+    name: Table
+  - description: Draft REST request or SQL query for the editor.
+    fields:
+    - name: id
+      nullable: false
+      pk: true
+      type: uuid
+    - name: connectionId
+      nullable: false
+      pk: false
+      type: uuid
+    - name: type
+      nullable: false
+      pk: false
+      type: enum('rest','sql')
+    - name: title
+      nullable: true
+      pk: false
+      type: varchar(100)
+    - name: content
+      nullable: false
+      pk: false
+      type: text
+    - name: validationWarnings
+      nullable: true
+      pk: false
+      type: jsonb
+    - name: createdAt
+      nullable: false
+      pk: false
+      type: timestamp with time zone
+    - name: updatedAt
+      nullable: false
+      pk: false
+      type: timestamp with time zone
+    name: RequestDraft
+  - description: Validation warning surfaced by the system.
+    fields:
+    - name: id
+      nullable: false
+      pk: true
+      type: uuid
+    - name: draftId
+      nullable: false
+      pk: false
+      type: uuid
+    - name: message
+      nullable: false
+      pk: false
+      type: varchar(255)
+    - name: field
+      nullable: true
+      pk: false
+      type: varchar(100)
+    - name: severity
+      nullable: false
+      pk: false
+      type: enum('info','warning','error')
+    - name: createdAt
+      nullable: false
+      pk: false
+      type: timestamp with time zone
+    - name: updatedAt
+      nullable: false
+      pk: false
+      type: timestamp with time zone
+    name: ValidationWarning
+  name: workspace
+  services:
+  - description: Manages connection creation, retrieval, status, and config.
+    methods:
+    - getConnections()
+    - getConnectionById(id)
+    - createConnection(input)
+    - updateConnection(id, input)
+    - deleteConnection(id)
+    - getConnectionSchemas(id)
+    name: ConnectionService
+  - description: Manages database schemas for a connection.
+    methods:
+    - getSchemasForConnection(connectionId)
+    - getSchemaById(id)
+    name: SchemaService
+  - description: Manages table browsing and quick CRUD template generation.
+    methods:
+    - getTablesForSchema(schemaId)
+    - getTableById(id)
+    - getQuickCrudTemplates(tableId)
+    name: TableService
+  - description: Handles creation, update, and validation of request/query drafts.
+    methods:
+    - createDraft(input)
+    - getDraftById(id)
+    - updateDraft(id, input)
+    - deleteDraft(id)
+    - validateDraft(id)
+    name: DraftService
+  - description: Runs validation on drafts and data changes, returns warnings.
+    methods:
+    - validateRequestDraft(draftId)
+    - validateSqlDraft(draftId)
+    name: ValidationService
+metadata:
+  description: Adds the 'workspace' core domain and API for connection management,
+    schema browsing, request/query editing, and CRUD shortcuts as described in the
+    workspace product requirements.
+  generated_at: '2024-06-09T15:17:40Z'
+  name: Workspace — API & Database Explorer
+  version: 1.0.2
+openapi_spec_yaml: "openapi: 3.1.0\ninfo:\n  title: Workspace API & Database Explorer\n\
+  \  version: '1.0.2'\nservers:\n  - url: /api/v1\n    description: API version 1\n\
+  paths:\n  /connections:\n    get:\n      summary: List all configured connections\n\
+  \      operationId: getConnections\n      responses:\n        '200':\n         \
+  \ description: List of connections\n          content:\n            application/json:\n\
+  \              schema:\n                type: array\n                items:\n  \
+  \                $ref: '#/components/schemas/Connection'\n    post:\n      summary:\
+  \ Create a new connection\n      operationId: createConnection\n      requestBody:\n\
+  \        required: true\n        content:\n          application/json:\n       \
+  \     schema:\n              $ref: '#/components/schemas/ConnectionCreateInput'\n\
+  \      responses:\n        '201':\n          description: Connection created\n \
+  \         content:\n            application/json:\n              schema:\n     \
+  \           $ref: '#/components/schemas/Connection'\n        '409':\n          $ref:\
+  \ '#/components/responses/ConflictError'\n  /connections/{id}:\n    get:\n     \
+  \ summary: Get connection by ID\n      operationId: getConnectionById\n      parameters:\n\
+  \        - $ref: '#/components/parameters/ConnectionId'\n      responses:\n    \
+  \    '200':\n          description: Connection details\n          content:\n   \
+  \         application/json:\n              schema:\n                $ref: '#/components/schemas/Connection'\n\
+  \        '404':\n          $ref: '#/components/responses/NotFoundError'\n    put:\n\
+  \      summary: Update connection\n      operationId: updateConnection\n      parameters:\n\
+  \        - $ref: '#/components/parameters/ConnectionId'\n      requestBody:\n  \
+  \      required: true\n        content:\n          application/json:\n         \
+  \   schema:\n              $ref: '#/components/schemas/ConnectionUpdateInput'\n\
+  \      responses:\n        '200':\n          description: Connection updated\n \
+  \         content:\n            application/json:\n              schema:\n     \
+  \           $ref: '#/components/schemas/Connection'\n        '404':\n          $ref:\
+  \ '#/components/responses/NotFoundError'\n    delete:\n      summary: Delete connection\n\
+  \      operationId: deleteConnection\n      parameters:\n        - $ref: '#/components/parameters/ConnectionId'\n\
+  \      responses:\n        '204':\n          description: Connection deleted\n \
+  \       '404':\n          $ref: '#/components/responses/NotFoundError'\n  /connections/{id}/schemas:\n\
+  \    get:\n      summary: List schemas for a connection\n      operationId: getConnectionSchemas\n\
+  \      parameters:\n        - $ref: '#/components/parameters/ConnectionId'\n   \
+  \   responses:\n        '200':\n          description: List of schemas\n       \
+  \   content:\n            application/json:\n              schema:\n           \
+  \     type: array\n                items:\n                  $ref: '#/components/schemas/Schema'\n\
+  \        '404':\n          $ref: '#/components/responses/NotFoundError'\n  /schemas/{id}/tables:\n\
+  \    get:\n      summary: List tables for a schema\n      operationId: getTablesForSchema\n\
+  \      parameters:\n        - $ref: '#/components/parameters/SchemaId'\n      responses:\n\
+  \        '200':\n          description: List of tables\n          content:\n   \
+  \         application/json:\n              schema:\n                type: array\n\
+  \                items:\n                  $ref: '#/components/schemas/Table'\n\
+  \        '404':\n          $ref: '#/components/responses/NotFoundError'\n  /tables/{id}:\n\
+  \    get:\n      summary: Get table by ID\n      operationId: getTableById\n   \
+  \   parameters:\n        - $ref: '#/components/parameters/TableId'\n      responses:\n\
+  \        '200':\n          description: Table details\n          content:\n    \
+  \        application/json:\n              schema:\n                $ref: '#/components/schemas/Table'\n\
+  \        '404':\n          $ref: '#/components/responses/NotFoundError'\n  /tables/{id}/crud-templates:\n\
+  \    get:\n      summary: Get Quick CRUD templates for table\n      operationId:\
+  \ getQuickCrudTemplates\n      parameters:\n        - $ref: '#/components/parameters/TableId'\n\
+  \      responses:\n        '200':\n          description: CRUD templates\n     \
+  \     content:\n            application/json:\n              schema:\n         \
+  \       type: object\n                properties:\n                  create:\n \
+  \                   type: string\n                  read:\n                    type:\
+  \ string\n                  update:\n                    type: string\n        \
+  \          delete:\n                    type: string\n        '404':\n         \
+  \ $ref: '#/components/responses/NotFoundError'\n  /drafts:\n    post:\n      summary:\
+  \ Create draft (REST or SQL)\n      operationId: createDraft\n      requestBody:\n\
+  \        required: true\n        content:\n          application/json:\n       \
+  \     schema:\n              $ref: '#/components/schemas/RequestDraftCreateInput'\n\
+  \      responses:\n        '201':\n          description: Draft created\n      \
+  \    content:\n            application/json:\n              schema:\n          \
+  \      $ref: '#/components/schemas/RequestDraft'\n  /drafts/{id}:\n    get:\n  \
+  \    summary: Get draft by ID\n      operationId: getDraftById\n      parameters:\n\
+  \        - $ref: '#/components/parameters/DraftId'\n      responses:\n        '200':\n\
+  \          description: Draft details\n          content:\n            application/json:\n\
+  \              schema:\n                $ref: '#/components/schemas/RequestDraft'\n\
+  \        '404':\n          $ref: '#/components/responses/NotFoundError'\n    put:\n\
+  \      summary: Update draft\n      operationId: updateDraft\n      parameters:\n\
+  \        - $ref: '#/components/parameters/DraftId'\n      requestBody:\n       \
+  \ required: true\n        content:\n          application/json:\n            schema:\n\
+  \              $ref: '#/components/schemas/RequestDraftUpdateInput'\n      responses:\n\
+  \        '200':\n          description: Draft updated\n          content:\n    \
+  \        application/json:\n              schema:\n                $ref: '#/components/schemas/RequestDraft'\n\
+  \        '404':\n          $ref: '#/components/responses/NotFoundError'\n    delete:\n\
+  \      summary: Delete draft\n      operationId: deleteDraft\n      parameters:\n\
+  \        - $ref: '#/components/parameters/DraftId'\n      responses:\n        '204':\n\
+  \          description: Draft deleted\n        '404':\n          $ref: '#/components/responses/NotFoundError'\n\
+  \  /drafts/{id}/validate:\n    post:\n      summary: Validate draft and return warnings\n\
+  \      operationId: validateDraft\n      parameters:\n        - $ref: '#/components/parameters/DraftId'\n\
+  \      responses:\n        '200':\n          description: Validation result\n  \
+  \        content:\n            application/json:\n              schema:\n      \
+  \          type: object\n                properties:\n                  warnings:\n\
+  \                    type: array\n                    items:\n                 \
+  \     $ref: '#/components/schemas/ValidationWarning'\n        '404':\n         \
+  \ $ref: '#/components/responses/NotFoundError'\ncomponents:\n  schemas:\n    Connection:\n\
+  \      type: object\n      properties:\n        id:\n          type: string\n  \
+  \        format: uuid\n        name:\n          type: string\n          minLength:\
+  \ 1\n          maxLength: 100\n        type:\n          type: string\n         \
+  \ enum: [database, api]\n        config:\n          type: object\n        status:\n\
+  \          type: string\n          enum: [active, error, disconnected]\n       \
+  \ createdAt:\n          type: string\n          format: date-time\n        updatedAt:\n\
+  \          type: string\n          format: date-time\n      required: [id, name,\
+  \ type, config, status, createdAt, updatedAt]\n    ConnectionCreateInput:\n    \
+  \  type: object\n      properties:\n        name:\n          type: string\n    \
+  \      minLength: 1\n          maxLength: 100\n        type:\n          type: string\n\
+  \          enum: [database, api]\n        config:\n          type: object\n    \
+  \  required: [name, type, config]\n    ConnectionUpdateInput:\n      type: object\n\
+  \      properties:\n        name:\n          type: string\n          minLength:\
+  \ 1\n          maxLength: 100\n        config:\n          type: object\n       \
+  \ status:\n          type: string\n          enum: [active, error, disconnected]\n\
+  \      required: [name, config, status]\n    Schema:\n      type: object\n     \
+  \ properties:\n        id:\n          type: string\n          format: uuid\n   \
+  \     connectionId:\n          type: string\n          format: uuid\n        name:\n\
+  \          type: string\n          minLength: 1\n          maxLength: 100\n    \
+  \    createdAt:\n          type: string\n          format: date-time\n        updatedAt:\n\
+  \          type: string\n          format: date-time\n      required: [id, connectionId,\
+  \ name, createdAt, updatedAt]\n    Table:\n      type: object\n      properties:\n\
+  \        id:\n          type: string\n          format: uuid\n        schemaId:\n\
+  \          type: string\n          format: uuid\n        name:\n          type:\
+  \ string\n          minLength: 1\n          maxLength: 100\n        columns:\n \
+  \         type: array\n          items:\n            $ref: '#/components/schemas/TableColumn'\n\
+  \        relationships:\n          type: array\n          items:\n            $ref:\
+  \ '#/components/schemas/TableRelationship'\n        validationRules:\n         \
+  \ type: array\n          items:\n            $ref: '#/components/schemas/ValidationRule'\n\
+  \        createdAt:\n          type: string\n          format: date-time\n     \
+  \   updatedAt:\n          type: string\n          format: date-time\n      required:\
+  \ [id, schemaId, name, columns, relationships, createdAt, updatedAt]\n    TableColumn:\n\
+  \      type: object\n      properties:\n        name:\n          type: string\n\
+  \        type:\n          type: string\n        nullable:\n          type: boolean\n\
+  \        default:\n          type: string\n          nullable: true\n        constraints:\n\
+  \          type: array\n          items:\n            type: string\n      required:\
+  \ [name, type, nullable]\n    TableRelationship:\n      type: object\n      properties:\n\
+  \        type:\n          type: string\n          enum: [one-to-one, one-to-many,\
+  \ many-to-one, many-to-many]\n        targetTable:\n          type: string\n   \
+  \     sourceColumn:\n          type: string\n        targetColumn:\n          type:\
+  \ string\n      required: [type, targetTable, sourceColumn, targetColumn]\n    ValidationRule:\n\
+  \      type: object\n      properties:\n        field:\n          type: string\n\
+  \        rule:\n          type: string\n        params:\n          type: object\n\
+  \      required: [field, rule]\n    RequestDraft:\n      type: object\n      properties:\n\
+  \        id:\n          type: string\n          format: uuid\n        connectionId:\n\
+  \          type: string\n          format: uuid\n        type:\n          type:\
+  \ string\n          enum: [rest, sql]\n        title:\n          type: string\n\
+  \          nullable: true\n        content:\n          type: string\n        validationWarnings:\n\
+  \          type: array\n          items:\n            $ref: '#/components/schemas/ValidationWarning'\n\
+  \        createdAt:\n          type: string\n          format: date-time\n     \
+  \   updatedAt:\n          type: string\n          format: date-time\n      required:\
+  \ [id, connectionId, type, content, createdAt, updatedAt]\n    RequestDraftCreateInput:\n\
+  \      type: object\n      properties:\n        connectionId:\n          type: string\n\
+  \          format: uuid\n        type:\n          type: string\n          enum:\
+  \ [rest, sql]\n        title:\n          type: string\n          nullable: true\n\
+  \        content:\n          type: string\n      required: [connectionId, type,\
+  \ content]\n    RequestDraftUpdateInput:\n      type: object\n      properties:\n\
+  \        content:\n          type: string\n        title:\n          type: string\n\
+  \          nullable: true\n      required: [content]\n    ValidationWarning:\n \
+  \     type: object\n      properties:\n        id:\n          type: string\n   \
+  \       format: uuid\n        draftId:\n          type: string\n          format:\
+  \ uuid\n        message:\n          type: string\n          maxLength: 255\n   \
+  \     field:\n          type: string\n          nullable: true\n        severity:\n\
+  \          type: string\n          enum: [info, warning, error]\n        createdAt:\n\
+  \          type: string\n          format: date-time\n        updatedAt:\n     \
+  \     type: string\n          format: date-time\n      required: [id, draftId, message,\
+  \ severity, createdAt, updatedAt]\n    ErrorResponse:\n      type: object\n    \
+  \  properties:\n        code:\n          type: string\n        message:\n      \
+  \    type: string\n        details:\n          type: string\n        fieldErrors:\n\
+  \          type: array\n          items:\n            type: object\n           \
+  \ properties:\n              field:\n                type: string\n            \
+  \  message:\n                type: string\n      required: [code, message]\n  parameters:\n\
+  \    ConnectionId:\n      name: id\n      in: path\n      required: true\n     \
+  \ schema:\n        type: string\n        format: uuid\n    SchemaId:\n      name:\
+  \ id\n      in: path\n      required: true\n      schema:\n        type: string\n\
+  \        format: uuid\n    TableId:\n      name: id\n      in: path\n      required:\
+  \ true\n      schema:\n        type: string\n        format: uuid\n    DraftId:\n\
+  \      name: id\n      in: path\n      required: true\n      schema:\n        type:\
+  \ string\n        format: uuid\n  responses:\n    NotFoundError:\n      description:\
+  \ Resource not found\n      content:\n        application/json:\n          schema:\n\
+  \            $ref: '#/components/schemas/ErrorResponse'\n    ConflictError:\n  \
+  \    description: Resource conflict (e.g. duplicate name)\n      content:\n    \
+  \    application/json:\n          schema:\n            $ref: '#/components/schemas/ErrorResponse'\n"
+product:
+  features:
+  - description: Select and browse API/database connections, view schemas/tables/relationships.
+    domains:
+    - workspace
+    id: workspace-connection-picker
+    priority: high
+    title: Connection Picker
+  - description: Tabbed interface for REST and SQL editing with draft saving and inline
+      validation.
+    domains:
+    - workspace
+    id: workspace-editor-tabs
+    priority: high
+    title: Request/Query Editor
+  - description: Displays raw, formatted, and metadata results of executed requests/queries.
+    domains:
+    - workspace
+    id: workspace-results-pane
+    priority: high
+    title: Results/Response Pane
+  - description: Prefilled CRUD templates for selected tables, validation surfaced
+      before commit.
+    domains:
+    - workspace
+    id: workspace-quick-crud
+    priority: medium
+    title: Quick CRUD Shortcuts
+  goals:
+  - Enable users to manage and switch between API/database connections efficiently
+  - Allow browsing of database schemas, tables, and relationships
+  - Provide tabbed editors for REST requests and SQL queries with draft persistence
+  - Display results pane with raw/formatted/metadata views for any request/query
+  - Surface validation warnings before committing data changes
+  - Offer quick CRUD shortcuts for tables, pre-filling request/query templates
+  personas:
+  - description: Works on both API and database layers, needs tools for rapid prototyping
+      and debugging.
+    goals:
+    - Quickly test APIs and execute SQL queries
+    - Understand database structure and relationships
+    - Switch between connections and retain work in progress
+    name: Full-Stack Developer
+  summary: A unified workspace for API and database exploration with real-time validation,
+    schema browsing, request/query editing, results display, and quick CRUD tools.
+use_cases:
+- actors:
+  - User
+  apis:
+  - GET /connections
+  - GET /connections/{id}/schemas
+  description: User selects a connection and browses its schemas, tables, and relationships.
+  domains:
+  - workspace
+  happy_path:
+  - User opens workspace
+  - User sees list of connections
+  - User selects a database connection
+  - System displays schemas, tables, and relationships
+  id: uc_workspace_connection
+  pages:
+  - /workspace
+  postconditions:
+  - Connection is selected; schema/table tree is visible
+  preconditions:
+  - At least one connection is configured
+  title: Select and Browse Connection
+- actors:
+  - User
+  apis:
+  - POST /requests/validate
+  - POST /queries/validate
+  description: User creates or edits a REST request or SQL query, with draft persistence
+    and validation.
+  domains:
+  - workspace
+  happy_path:
+  - User switches to REST or SQL tab
+  - User edits request/query
+  - Editor validates input and shows warnings
+  - User saves or executes draft
+  id: uc_workspace_edit_request_query
+  pages:
+  - /workspace
+  postconditions:
+  - Draft is saved or executed; validation errors are surfaced
+  preconditions:
+  - A connection is selected
+  title: Edit REST Request or SQL Query
+- actors:
+  - User
+  apis:
+  - POST /requests/execute
+  - POST /queries/execute
+  description: User executes a request or query and views results in various formats
+    with execution metadata.
+  domains:
+  - workspace
+  happy_path:
+  - User executes request/query
+  - System validates input and runs operation
+  - Results pane shows response, formatted data, and metadata
+  id: uc_workspace_execute
+  pages:
+  - /workspace
+  postconditions:
+  - Results are displayed in raw/formatted/metadata tabs
+  preconditions:
+  - A valid request or query is prepared
+  title: Execute Request/Query and View Results
+- actors:
+  - User
+  apis: []
+  description: User triggers a CRUD shortcut for a selected table, prepopulating the
+    editor with a template.
+  domains:
+  - workspace
+  happy_path:
+  - User selects table
+  - Quick CRUD buttons appear
+  - User clicks 'Create' (or Read/Update/Delete)
+  - Editor is prefilled with template
+  id: uc_workspace_quick_crud
+  pages:
+  - /workspace
+  postconditions:
+  - Editor is loaded with CRUD template
+  preconditions:
+  - A table is selected in schema browser
+  title: Use Quick CRUD Shortcuts
+user_journeys:
+- id: uj_workspace_basic
+  persona: Full-Stack Developer
+  related_use_cases:
+  - uc_workspace_connection
+  - uc_workspace_edit_request_query
+  - uc_workspace_execute
+  steps:
+  - action: Open workspace and select a database connection
+    page: /workspace
+  - action: Browse schemas, tables, and relationships
+    page: /workspace
+  - action: Compose SQL query in editor, validation runs
+    page: /workspace
+  - action: Execute query, results shown in pane
+    page: /workspace
+  success_criteria: User rapidly explores and queries database with feedback and no
+    data loss.
+  title: Explore and Query Database
+- id: uj_workspace_api_test
+  persona: Full-Stack Developer
+  related_use_cases:
+  - uc_workspace_connection
+  - uc_workspace_edit_request_query
+  - uc_workspace_execute
+  steps:
+  - action: Open workspace and select API connection
+    page: /workspace
+  - action: Switch to REST tab, compose request
+    page: /workspace
+  - action: Validate and execute request
+    page: /workspace
+  - action: Review response, status, and metadata
+    page: /workspace
+  success_criteria: User tests API endpoint quickly and sees all relevant response
+    info.
+  title: Test REST API

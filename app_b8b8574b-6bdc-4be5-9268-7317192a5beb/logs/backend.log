@@ -1,0 +1,373 @@
+2025-09-04T16:05:01: Error starting server: Error: env must have required property 'APP_DATABASE_URL'
+2025-09-04T16:05:01:     at envSchema (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/env-schema@6.0.1/node_modules/env-schema/index.js:85:19)
+2025-09-04T16:05:01:     at fastifyEnv (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/@fastify+env@5.0.2/node_modules/@fastify/env/index.js:8:20)
+2025-09-04T16:05:01:     at Plugin.exec (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/avvio@9.1.0/node_modules/avvio/lib/plugin.js:125:28)
+2025-09-04T16:05:01:     at Boot._loadPlugin (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/avvio@9.1.0/node_modules/avvio/boot.js:432:10)
+2025-09-04T16:05:01:     at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+2025-09-04T16:05:01:   errors: [
+2025-09-04T16:05:01:     {
+2025-09-04T16:05:01:       instancePath: '',
+2025-09-04T16:05:01:       schemaPath: '#/required',
+2025-09-04T16:05:01:       keyword: 'required',
+2025-09-04T16:05:01:       params: [Object],
+2025-09-04T16:05:01:       message: "must have required property 'APP_DATABASE_URL'"
+2025-09-04T16:05:01:     }
+2025-09-04T16:05:01:   ]
+2025-09-04T16:05:01: }
+2025-09-04T16:13:35: 4:13:35 PM [tsx] change in ./src/services/index.ts Rerunning...
+2025-09-04T16:13:35: c
+2025-09-04T16:13:37: No public folder found, skipping static file serving: Error: ENOENT: no such file or directory, access './public/index.html'
+2025-09-04T16:13:37:     at async Object.access (node:internal/fs/promises:606:10)
+2025-09-04T16:13:37:     at async setupStaticIfAvailable (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/app.ts:53:5)
+2025-09-04T16:13:37:     at async build (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/app.ts:25:5) {
+2025-09-04T16:13:37:   errno: -2,
+2025-09-04T16:13:37:   code: 'ENOENT',
+2025-09-04T16:13:37:   syscall: 'access',
+2025-09-04T16:13:37:   path: './public/index.html'
+2025-09-04T16:13:37: }
+2025-09-04T16:13:38: {"level":30,"time":1757002418106,"pid":699,"hostname":"e2b.local","msg":"fastify-openapi-glue registered successfully"}
+2025-09-04T16:13:38: {"level":30,"time":1757002418204,"pid":699,"hostname":"e2b.local","msg":"Running database migrations on startup..."}
+2025-09-04T16:13:38: 🗄️  Running custom database migrations...
+2025-09-04T16:13:38: {"level":30,"time":1757002418106,"pid":699,"hostname":"e2b.local","msg":"Using OpenAPI spec: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/shared/openapi_spec_0.yaml"}
+2025-09-04T16:13:38: 📝 First run detected - migration_log table will be created
+2025-09-04T16:13:38: 🔧 Applying migration 001-migration-log.sql
+2025-09-04T16:13:38: ❌ Error applying migration 001-migration-log.sql: AggregateError [ECONNREFUSED]: 
+2025-09-04T16:13:38:     at /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/pg-pool@3.10.1_pg@8.16.3/node_modules/pg-pool/index.js:45:11
+2025-09-04T16:13:38:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-09-04T16:13:38:     at async MigrationRunner.runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:151:24)
+2025-09-04T16:13:38:     at async runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:212:5)
+2025-09-04T16:13:38:     at async Object.<anonymous> (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/hooks/startup.hook.ts:14:7) {
+2025-09-04T16:13:38:   code: 'ECONNREFUSED',
+2025-09-04T16:13:38:   [errors]: [
+2025-09-04T16:13:38:     Error: connect ECONNREFUSED ::1:5433
+2025-09-04T16:13:38:         at createConnectionError (node:net:1678:14)
+2025-09-04T16:13:38:         at afterConnectMultiple (node:net:1708:16) {
+2025-09-04T16:13:38:       errno: -111,
+2025-09-04T16:13:38:       code: 'ECONNREFUSED',
+2025-09-04T16:13:38:       syscall: 'connect',
+2025-09-04T16:13:38:       address: '::1',
+2025-09-04T16:13:38:       port: 5433
+2025-09-04T16:13:38:     },
+2025-09-04T16:13:38:     Error: connect ECONNREFUSED 127.0.0.1:5433
+2025-09-04T16:13:38:         at createConnectionError (node:net:1678:14)
+2025-09-04T16:13:38:         at afterConnectMultiple (node:net:1708:16) {
+2025-09-04T16:13:38:       errno: -111,
+2025-09-04T16:13:38:       code: 'ECONNREFUSED',
+2025-09-04T16:13:38:       syscall: 'connect',
+2025-09-04T16:13:38:       address: '127.0.0.1',
+2025-09-04T16:13:38:       port: 5433
+2025-09-04T16:13:38:     }
+2025-09-04T16:13:38:   ]
+2025-09-04T16:13:38: }
+2025-09-04T16:13:38: {"level":50,"time":1757002418226,"pid":699,"hostname":"e2b.local","err":{"type":"AggregateError","message":"","stack":"AggregateError [ECONNREFUSED]: \n    at /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/pg-pool@3.10.1_pg@8.16.3/node_modules/pg-pool/index.js:45:11\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MigrationRunner.runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:151:24)\n    at async runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:212:5)\n    at async Object.<anonymous> (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/hooks/startup.hook.ts:14:7)","aggregateErrors":[{"type":"Error","message":"connect ECONNREFUSED ::1:5433","stack":"Error: connect ECONNREFUSED ::1:5433\n    at createConnectionError (node:net:1678:14)\n    at afterConnectMultiple (node:net:1708:16)","errno":-111,"code":"ECONNREFUSED","syscall":"connect","address":"::1","port":5433},{"type":"Error","message":"connect ECONNREFUSED 127.0.0.1:5433","stack":"Error: connect ECONNREFUSED 127.0.0.1:5433\n    at createConnectionError (node:net:1678:14)\n    at afterConnectMultiple (node:net:1708:16)","errno":-111,"code":"ECONNREFUSED","syscall":"connect","address":"127.0.0.1","port":5433}],"code":"ECONNREFUSED"},"msg":"Failed to run database migrations"}
+2025-09-04T16:13:38: {"level":50,"time":1757002418227,"pid":699,"hostname":"e2b.local","msg":"Failing startup due to database migration error"}
+2025-09-04T16:15:24: 4:15:24 PM [tsx] change in ./src/db/schema.ts Rerunning...
+2025-09-04T16:15:25: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/repositories/__entity__.repo.template.ts:7
+2025-09-04T16:15:25: import { __entityPlural__ } from '../db/schema';
+2025-09-04T16:15:25:          ^
+2025-09-04T16:15:25: 
+2025-09-04T16:15:25: SyntaxError: The requested module '../db/schema' does not provide an export named '__entityPlural__'
+2025-09-04T16:15:25:     at ModuleJob._instantiate (node:internal/modules/esm/module_job:220:21)
+2025-09-04T16:15:25:     at async ModuleJob.run (node:internal/modules/esm/module_job:321:5)
+2025-09-04T16:15:25:     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+2025-09-04T16:15:25:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+2025-09-04T16:15:25: 
+2025-09-04T16:15:25: Node.js v22.17.1
+2025-09-04T16:16:50: 4:16:50 PM [tsx] change in ./src/repositories/index.ts Rerunning...
+2025-09-04T16:16:51: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/repositories/__entity__.repo.template.ts:7
+2025-09-04T16:16:51: import { __entityPlural__ } from '../db/schema';
+2025-09-04T16:16:51:          ^
+2025-09-04T16:16:51: 
+2025-09-04T16:16:51: SyntaxError: The requested module '../db/schema' does not provide an export named '__entityPlural__'
+2025-09-04T16:16:51:     at ModuleJob._instantiate (node:internal/modules/esm/module_job:220:21)
+2025-09-04T16:16:51:     at async ModuleJob.run (node:internal/modules/esm/module_job:321:5)
+2025-09-04T16:16:51:     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+2025-09-04T16:16:51:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+2025-09-04T16:16:51: 
+2025-09-04T16:16:51: Node.js v22.17.1
+2025-09-04T16:16:56: 4:16:56 PM [tsx] change in ./src/repositories/index.ts Rerunning...
+2025-09-04T16:16:58: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/repositories/__entity__.repo.template.ts:7
+2025-09-04T16:16:58: import { __entityPlural__ } from '../db/schema';
+2025-09-04T16:16:58:          ^
+2025-09-04T16:16:58: 
+2025-09-04T16:16:58: SyntaxError: The requested module '../db/schema' does not provide an export named '__entityPlural__'
+2025-09-04T16:16:58:     at ModuleJob._instantiate (node:internal/modules/esm/module_job:220:21)
+2025-09-04T16:16:58:     at async ModuleJob.run (node:internal/modules/esm/module_job:321:5)
+2025-09-04T16:16:58:     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+2025-09-04T16:16:58:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+2025-09-04T16:16:58: 
+2025-09-04T16:16:58: Node.js v22.17.1
+2025-09-04T16:17:45: 4:17:45 PM [tsx] change in ./src/services/index.ts Rerunning...
+2025-09-04T16:17:45: c
+2025-09-04T16:17:47: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/repositories/__entity__.repo.template.ts:7
+2025-09-04T16:17:47: import { __entityPlural__ } from '../db/schema';
+2025-09-04T16:17:47:          ^
+2025-09-04T16:17:47: 
+2025-09-04T16:17:47: SyntaxError: The requested module '../db/schema' does not provide an export named '__entityPlural__'
+2025-09-04T16:17:47:     at ModuleJob._instantiate (node:internal/modules/esm/module_job:220:21)
+2025-09-04T16:17:47:     at async ModuleJob.run (node:internal/modules/esm/module_job:321:5)
+2025-09-04T16:17:47:     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+2025-09-04T16:17:47:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+2025-09-04T16:17:47: 
+2025-09-04T16:17:47: Node.js v22.17.1
+2025-09-04T16:17:51: 4:17:51 PM [tsx] change in ./src/services/index.ts Rerunning...
+2025-09-04T16:17:52: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/repositories/__entity__.repo.template.ts:7
+2025-09-04T16:17:52: import { __entityPlural__ } from '../db/schema';
+2025-09-04T16:17:52:          ^
+2025-09-04T16:17:52: 
+2025-09-04T16:17:52: SyntaxError: The requested module '../db/schema' does not provide an export named '__entityPlural__'
+2025-09-04T16:17:52:     at ModuleJob._instantiate (node:internal/modules/esm/module_job:220:21)
+2025-09-04T16:17:52:     at async ModuleJob.run (node:internal/modules/esm/module_job:321:5)
+2025-09-04T16:17:52:     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+2025-09-04T16:17:52:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+2025-09-04T16:17:52: 
+2025-09-04T16:17:52: Node.js v22.17.1
+2025-09-04T16:18:23: 4:18:23 PM [tsx] change in ./src/handlers/open-api-service-handlers.ts Rerunning...
+2025-09-04T16:18:24: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/repositories/__entity__.repo.template.ts:7
+2025-09-04T16:18:24: import { __entityPlural__ } from '../db/schema';
+2025-09-04T16:18:24:          ^
+2025-09-04T16:18:24: 
+2025-09-04T16:18:24: SyntaxError: The requested module '../db/schema' does not provide an export named '__entityPlural__'
+2025-09-04T16:18:24:     at ModuleJob._instantiate (node:internal/modules/esm/module_job:220:21)
+2025-09-04T16:18:24:     at async ModuleJob.run (node:internal/modules/esm/module_job:321:5)
+2025-09-04T16:18:24:     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+2025-09-04T16:18:24:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+2025-09-04T16:18:24: 
+2025-09-04T16:18:24: Node.js v22.17.1
+2025-09-04T16:44:58: 4:44:58 PM [tsx] unlink in ./../node_modules/.pnpm/fast-querystring@1.1.2/node_modules/fast-querystring/lib/stringify.js Rerunning...
+2025-09-04T16:44:58: c
+2025-09-04T16:44:58: 
+2025-09-04T16:44:58: node:internal/modules/run_main:123
+2025-09-04T16:44:58:     triggerUncaughtException(
+2025-09-04T16:44:58:     ^
+2025-09-04T16:44:58: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'fastify' imported from /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/app.ts
+2025-09-04T16:44:58: Did you mean to import "fastify/fastify.js"?
+2025-09-04T16:44:58:     at Object.getPackageJSONURL (node:internal/modules/package_json_reader:256:9)
+2025-09-04T16:44:58:     at packageResolve (node:internal/modules/esm/resolve:768:81)
+2025-09-04T16:44:58:     at moduleResolve (node:internal/modules/esm/resolve:854:18)
+2025-09-04T16:44:58:     at defaultResolve (node:internal/modules/esm/resolve:984:11)
+2025-09-04T16:44:58:     at nextResolve (node:internal/modules/esm/hooks:748:28)
+2025-09-04T16:44:58:     at resolveBase (file:///top/node_modules/.pnpm/tsx@4.20.3/node_modules/tsx/dist/esm/index.mjs?1757004298790:2:3811)
+2025-09-04T16:44:58:     at resolveDirectory (file:///top/node_modules/.pnpm/tsx@4.20.3/node_modules/tsx/dist/esm/index.mjs?1757004298790:2:4310)
+2025-09-04T16:44:58:     at resolveTsPaths (file:///top/node_modules/.pnpm/tsx@4.20.3/node_modules/tsx/dist/esm/index.mjs?1757004298790:2:5051)
+2025-09-04T16:44:58:     at async resolve (file:///top/node_modules/.pnpm/tsx@4.20.3/node_modules/tsx/dist/esm/index.mjs?1757004298790:2:5422)
+2025-09-04T16:44:58:     at async nextResolve (node:internal/modules/esm/hooks:748:22) {
+2025-09-04T16:44:58:   code: 'ERR_MODULE_NOT_FOUND'
+2025-09-04T16:44:58: }
+2025-09-04T16:44:58: 
+2025-09-04T16:44:58: Node.js v22.17.1
+2025-09-04T16:45:22: 4:45:22 PM [tsx] change in ./src/db/schema.ts Rerunning...
+2025-09-04T16:45:22: c
+2025-09-04T16:45:23: 4:45:23 PM [tsx] change in ./src/handlers/open-api-service-handlers.ts Restarting...
+2025-09-04T16:45:23: c
+2025-09-04T16:45:23: 4:45:23 PM [tsx] change in ./src/repositories/table.repo.ts Restarting...
+2025-09-04T16:45:23: c
+2025-09-04T16:45:23: 4:45:23 PM [tsx] change in ./src/services/table.service.ts Restarting...
+2025-09-04T16:45:23: c
+2025-09-04T16:45:25: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/repositories/__entity__.repo.template.ts:7
+2025-09-04T16:45:25: import { __entityPlural__ } from '../db/schema';
+2025-09-04T16:45:25:          ^
+2025-09-04T16:45:25: 
+2025-09-04T16:45:25: SyntaxError: The requested module '../db/schema' does not provide an export named '__entityPlural__'
+2025-09-04T16:45:25:     at ModuleJob._instantiate (node:internal/modules/esm/module_job:220:21)
+2025-09-04T16:45:25:     at async ModuleJob.run (node:internal/modules/esm/module_job:321:5)
+2025-09-04T16:45:25:     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+2025-09-04T16:45:25:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+2025-09-04T16:45:25: 
+2025-09-04T16:45:25: Node.js v22.17.1
+2025-09-04T16:46:30: 4:46:30 PM [tsx] change in ./src/handlers/open-api-service-handlers.ts Rerunning...
+2025-09-04T16:46:31: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/repositories/__entity__.repo.template.ts:7
+2025-09-04T16:46:31: import { __entityPlural__ } from '../db/schema';
+2025-09-04T16:46:31:          ^
+2025-09-04T16:46:31: 
+2025-09-04T16:46:31: SyntaxError: The requested module '../db/schema' does not provide an export named '__entityPlural__'
+2025-09-04T16:46:31:     at ModuleJob._instantiate (node:internal/modules/esm/module_job:220:21)
+2025-09-04T16:46:31:     at async ModuleJob.run (node:internal/modules/esm/module_job:321:5)
+2025-09-04T16:46:31:     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+2025-09-04T16:46:31:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+2025-09-04T16:46:31: 
+2025-09-04T16:46:31: Node.js v22.17.1
+2025-09-04T16:46:39: 4:46:39 PM [tsx] change in ./src/repositories/__entity__.repo.template.ts Rerunning...
+2025-09-04T16:46:41: No public folder found, skipping static file serving: Error: ENOENT: no such file or directory, access './public/index.html'
+2025-09-04T16:46:41:     at async Object.access (node:internal/fs/promises:606:10)
+2025-09-04T16:46:41:     at async setupStaticIfAvailable (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/app.ts:53:5)
+2025-09-04T16:46:41:     at async build (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/app.ts:25:5) {
+2025-09-04T16:46:41:   errno: -2,
+2025-09-04T16:46:41:   code: 'ENOENT',
+2025-09-04T16:46:41:   syscall: 'access',
+2025-09-04T16:46:41:   path: './public/index.html'
+2025-09-04T16:46:41: }
+2025-09-04T16:46:41: {"level":30,"time":1757004401446,"pid":1975,"hostname":"e2b.local","msg":"fastify-openapi-glue registered successfully"}
+2025-09-04T16:46:41: {"level":30,"time":1757004401523,"pid":1975,"hostname":"e2b.local","msg":"Running database migrations on startup..."}
+2025-09-04T16:46:41: 🗄️  Running custom database migrations...
+2025-09-04T16:46:41: {"level":30,"time":1757004401446,"pid":1975,"hostname":"e2b.local","msg":"Using OpenAPI spec: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/shared/openapi_spec_0.yaml"}
+2025-09-04T16:46:41: 📝 First run detected - migration_log table will be created
+2025-09-04T16:46:41: 🔧 Applying migration 001-migration-log.sql
+2025-09-04T16:46:41: ❌ Error applying migration 001-migration-log.sql: AggregateError [ECONNREFUSED]: 
+2025-09-04T16:46:41:     at /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/pg-pool@3.10.1_pg@8.16.3/node_modules/pg-pool/index.js:45:11
+2025-09-04T16:46:41:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-09-04T16:46:41:     at async MigrationRunner.runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:151:24)
+2025-09-04T16:46:41:     at async runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:212:5)
+2025-09-04T16:46:41:     at async Object.<anonymous> (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/hooks/startup.hook.ts:14:7) {
+2025-09-04T16:46:41:   code: 'ECONNREFUSED',
+2025-09-04T16:46:41:   [errors]: [
+2025-09-04T16:46:41:     Error: connect ECONNREFUSED ::1:5433
+2025-09-04T16:46:41:         at createConnectionError (node:net:1678:14)
+2025-09-04T16:46:41:         at afterConnectMultiple (node:net:1708:16) {
+2025-09-04T16:46:41:       errno: -111,
+2025-09-04T16:46:41:       code: 'ECONNREFUSED',
+2025-09-04T16:46:41:       syscall: 'connect',
+2025-09-04T16:46:41:       address: '::1',
+2025-09-04T16:46:41:       port: 5433
+2025-09-04T16:46:41:     },
+2025-09-04T16:46:41:     Error: connect ECONNREFUSED 127.0.0.1:5433
+2025-09-04T16:46:41:         at createConnectionError (node:net:1678:14)
+2025-09-04T16:46:41:         at afterConnectMultiple (node:net:1708:16) {
+2025-09-04T16:46:41:       errno: -111,
+2025-09-04T16:46:41:       code: 'ECONNREFUSED',
+2025-09-04T16:46:41:       syscall: 'connect',
+2025-09-04T16:46:41:       address: '127.0.0.1',
+2025-09-04T16:46:41:       port: 5433
+2025-09-04T16:46:41:     }
+2025-09-04T16:46:41:   ]
+2025-09-04T16:46:41: }
+2025-09-04T16:46:41: {"level":50,"time":1757004401553,"pid":1975,"hostname":"e2b.local","err":{"type":"AggregateError","message":"","stack":"AggregateError [ECONNREFUSED]: \n    at /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/pg-pool@3.10.1_pg@8.16.3/node_modules/pg-pool/index.js:45:11\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MigrationRunner.runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:151:24)\n    at async runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:212:5)\n    at async Object.<anonymous> (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/hooks/startup.hook.ts:14:7)","aggregateErrors":[{"type":"Error","message":"connect ECONNREFUSED ::1:5433","stack":"Error: connect ECONNREFUSED ::1:5433\n    at createConnectionError (node:net:1678:14)\n    at afterConnectMultiple (node:net:1708:16)","errno":-111,"code":"ECONNREFUSED","syscall":"connect","address":"::1","port":5433},{"type":"Error","message":"connect ECONNREFUSED 127.0.0.1:5433","stack":"Error: connect ECONNREFUSED 127.0.0.1:5433\n    at createConnectionError (node:net:1678:14)\n    at afterConnectMultiple (node:net:1708:16)","errno":-111,"code":"ECONNREFUSED","syscall":"connect","address":"127.0.0.1","port":5433}],"code":"ECONNREFUSED"},"msg":"Failed to run database migrations"}
+2025-09-04T16:46:41: {"level":50,"time":1757004401554,"pid":1975,"hostname":"e2b.local","msg":"Failing startup due to database migration error"}
+2025-09-04T16:47:39: 4:47:39 PM [tsx] change in ./src/repositories/__entity__.repo.template.ts Rerunning...
+2025-09-04T16:47:41: No public folder found, skipping static file serving: Error: ENOENT: no such file or directory, access './public/index.html'
+2025-09-04T16:47:41:     at async Object.access (node:internal/fs/promises:606:10)
+2025-09-04T16:47:41:     at async setupStaticIfAvailable (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/app.ts:53:5)
+2025-09-04T16:47:41:     at async build (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/app.ts:25:5) {
+2025-09-04T16:47:41:   errno: -2,
+2025-09-04T16:47:41:   code: 'ENOENT',
+2025-09-04T16:47:41:   syscall: 'access',
+2025-09-04T16:47:41:   path: './public/index.html'
+2025-09-04T16:47:41: }
+2025-09-04T16:47:41: {"level":30,"time":1757004461775,"pid":2073,"hostname":"e2b.local","msg":"fastify-openapi-glue registered successfully"}
+2025-09-04T16:47:41: {"level":30,"time":1757004461865,"pid":2073,"hostname":"e2b.local","msg":"Running database migrations on startup..."}
+2025-09-04T16:47:41: 🗄️  Running custom database migrations...
+2025-09-04T16:47:41: {"level":30,"time":1757004461775,"pid":2073,"hostname":"e2b.local","msg":"Using OpenAPI spec: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/shared/openapi_spec_0.yaml"}
+2025-09-04T16:47:41: 📝 First run detected - migration_log table will be created
+2025-09-04T16:47:41: 🔧 Applying migration 001-migration-log.sql
+2025-09-04T16:47:41: ❌ Error applying migration 001-migration-log.sql: AggregateError [ECONNREFUSED]: 
+2025-09-04T16:47:41:     at /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/pg-pool@3.10.1_pg@8.16.3/node_modules/pg-pool/index.js:45:11
+2025-09-04T16:47:41:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-09-04T16:47:41:     at async MigrationRunner.runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:151:24)
+2025-09-04T16:47:41:     at async runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:212:5)
+2025-09-04T16:47:41:     at async Object.<anonymous> (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/hooks/startup.hook.ts:14:7) {
+2025-09-04T16:47:41:   code: 'ECONNREFUSED',
+2025-09-04T16:47:41:   [errors]: [
+2025-09-04T16:47:41:     Error: connect ECONNREFUSED ::1:5433
+2025-09-04T16:47:41:         at createConnectionError (node:net:1678:14)
+2025-09-04T16:47:41:         at afterConnectMultiple (node:net:1708:16) {
+2025-09-04T16:47:41:       errno: -111,
+2025-09-04T16:47:41:       code: 'ECONNREFUSED',
+2025-09-04T16:47:41:       syscall: 'connect',
+2025-09-04T16:47:41:       address: '::1',
+2025-09-04T16:47:41:       port: 5433
+2025-09-04T16:47:41:     },
+2025-09-04T16:47:41:     Error: connect ECONNREFUSED 127.0.0.1:5433
+2025-09-04T16:47:41:         at createConnectionError (node:net:1678:14)
+2025-09-04T16:47:41:         at afterConnectMultiple (node:net:1708:16) {
+2025-09-04T16:47:41:       errno: -111,
+2025-09-04T16:47:41:       code: 'ECONNREFUSED',
+2025-09-04T16:47:41:       syscall: 'connect',
+2025-09-04T16:47:41:       address: '127.0.0.1',
+2025-09-04T16:47:41:       port: 5433
+2025-09-04T16:47:41:     }
+2025-09-04T16:47:41:   ]
+2025-09-04T16:47:41: }
+2025-09-04T16:47:41: {"level":50,"time":1757004461884,"pid":2073,"hostname":"e2b.local","err":{"type":"AggregateError","message":"","stack":"AggregateError [ECONNREFUSED]: \n    at /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/pg-pool@3.10.1_pg@8.16.3/node_modules/pg-pool/index.js:45:11\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MigrationRunner.runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:151:24)\n    at async runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:212:5)\n    at async Object.<anonymous> (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/hooks/startup.hook.ts:14:7)","aggregateErrors":[{"type":"Error","message":"connect ECONNREFUSED ::1:5433","stack":"Error: connect ECONNREFUSED ::1:5433\n    at createConnectionError (node:net:1678:14)\n    at afterConnectMultiple (node:net:1708:16)","errno":-111,"code":"ECONNREFUSED","syscall":"connect","address":"::1","port":5433},{"type":"Error","message":"connect ECONNREFUSED 127.0.0.1:5433","stack":"Error: connect ECONNREFUSED 127.0.0.1:5433\n    at createConnectionError (node:net:1678:14)\n    at afterConnectMultiple (node:net:1708:16)","errno":-111,"code":"ECONNREFUSED","syscall":"connect","address":"127.0.0.1","port":5433}],"code":"ECONNREFUSED"},"msg":"Failed to run database migrations"}
+2025-09-04T16:47:41: {"level":50,"time":1757004461885,"pid":2073,"hostname":"e2b.local","msg":"Failing startup due to database migration error"}
+2025-09-04T16:49:34: 4:49:34 PM [tsx] change in ./src/services/__entity__.service.template.ts Rerunning...
+2025-09-04T16:49:35: No public folder found, skipping static file serving: Error: ENOENT: no such file or directory, access './public/index.html'
+2025-09-04T16:49:35:     at async Object.access (node:internal/fs/promises:606:10)
+2025-09-04T16:49:35:     at async setupStaticIfAvailable (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/app.ts:53:5)
+2025-09-04T16:49:35:     at async build (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/app.ts:25:5) {
+2025-09-04T16:49:35:   errno: -2,
+2025-09-04T16:49:35:   code: 'ENOENT',
+2025-09-04T16:49:35:   syscall: 'access',
+2025-09-04T16:49:35:   path: './public/index.html'
+2025-09-04T16:49:35: }
+2025-09-04T16:49:35: {"level":30,"time":1757004575989,"pid":2329,"hostname":"e2b.local","msg":"fastify-openapi-glue registered successfully"}
+2025-09-04T16:49:36: {"level":30,"time":1757004576071,"pid":2329,"hostname":"e2b.local","msg":"Running database migrations on startup..."}
+2025-09-04T16:49:36: 🗄️  Running custom database migrations...
+2025-09-04T16:49:36: {"level":30,"time":1757004575990,"pid":2329,"hostname":"e2b.local","msg":"Using OpenAPI spec: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/shared/openapi_spec_0.yaml"}
+2025-09-04T16:49:36: 📝 First run detected - migration_log table will be created
+2025-09-04T16:49:36: 🔧 Applying migration 001-migration-log.sql
+2025-09-04T16:49:36: ❌ Error applying migration 001-migration-log.sql: AggregateError [ECONNREFUSED]: 
+2025-09-04T16:49:36:     at /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/pg-pool@3.10.1_pg@8.16.3/node_modules/pg-pool/index.js:45:11
+2025-09-04T16:49:36:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-09-04T16:49:36:     at async MigrationRunner.runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:151:24)
+2025-09-04T16:49:36:     at async runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:212:5)
+2025-09-04T16:49:36:     at async Object.<anonymous> (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/hooks/startup.hook.ts:14:7) {
+2025-09-04T16:49:36:   code: 'ECONNREFUSED',
+2025-09-04T16:49:36:   [errors]: [
+2025-09-04T16:49:36:     Error: connect ECONNREFUSED ::1:5433
+2025-09-04T16:49:36:         at createConnectionError (node:net:1678:14)
+2025-09-04T16:49:36:         at afterConnectMultiple (node:net:1708:16) {
+2025-09-04T16:49:36:       errno: -111,
+2025-09-04T16:49:36:       code: 'ECONNREFUSED',
+2025-09-04T16:49:36:       syscall: 'connect',
+2025-09-04T16:49:36:       address: '::1',
+2025-09-04T16:49:36:       port: 5433
+2025-09-04T16:49:36:     },
+2025-09-04T16:49:36:     Error: connect ECONNREFUSED 127.0.0.1:5433
+2025-09-04T16:49:36:         at createConnectionError (node:net:1678:14)
+2025-09-04T16:49:36:         at afterConnectMultiple (node:net:1708:16) {
+2025-09-04T16:49:36:       errno: -111,
+2025-09-04T16:49:36:       code: 'ECONNREFUSED',
+2025-09-04T16:49:36:       syscall: 'connect',
+2025-09-04T16:49:36:       address: '127.0.0.1',
+2025-09-04T16:49:36:       port: 5433
+2025-09-04T16:49:36:     }
+2025-09-04T16:49:36:   ]
+2025-09-04T16:49:36: }
+2025-09-04T16:49:36: {"level":50,"time":1757004576101,"pid":2329,"hostname":"e2b.local","err":{"type":"AggregateError","message":"","stack":"AggregateError [ECONNREFUSED]: \n    at /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/pg-pool@3.10.1_pg@8.16.3/node_modules/pg-pool/index.js:45:11\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MigrationRunner.runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:151:24)\n    at async runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:212:5)\n    at async Object.<anonymous> (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/hooks/startup.hook.ts:14:7)","aggregateErrors":[{"type":"Error","message":"connect ECONNREFUSED ::1:5433","stack":"Error: connect ECONNREFUSED ::1:5433\n    at createConnectionError (node:net:1678:14)\n    at afterConnectMultiple (node:net:1708:16)","errno":-111,"code":"ECONNREFUSED","syscall":"connect","address":"::1","port":5433},{"type":"Error","message":"connect ECONNREFUSED 127.0.0.1:5433","stack":"Error: connect ECONNREFUSED 127.0.0.1:5433\n    at createConnectionError (node:net:1678:14)\n    at afterConnectMultiple (node:net:1708:16)","errno":-111,"code":"ECONNREFUSED","syscall":"connect","address":"127.0.0.1","port":5433}],"code":"ECONNREFUSED"},"msg":"Failed to run database migrations"}
+2025-09-04T16:49:36: {"level":50,"time":1757004576101,"pid":2329,"hostname":"e2b.local","msg":"Failing startup due to database migration error"}
+2025-09-04T16:50:14: 4:50:14 PM [tsx] change in ./src/handlers/open-api-service-handlers.ts Rerunning...
+2025-09-04T16:50:17: No public folder found, skipping static file serving: Error: ENOENT: no such file or directory, access './public/index.html'
+2025-09-04T16:50:17:     at async Object.access (node:internal/fs/promises:606:10)
+2025-09-04T16:50:17:     at async setupStaticIfAvailable (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/app.ts:53:5)
+2025-09-04T16:50:17:     at async build (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/app.ts:25:5) {
+2025-09-04T16:50:17:   errno: -2,
+2025-09-04T16:50:17:   code: 'ENOENT',
+2025-09-04T16:50:17:   syscall: 'access',
+2025-09-04T16:50:17:   path: './public/index.html'
+2025-09-04T16:50:17: }
+2025-09-04T16:50:17: {"level":30,"time":1757004617351,"pid":2346,"hostname":"e2b.local","msg":"fastify-openapi-glue registered successfully"}
+2025-09-04T16:50:17: {"level":30,"time":1757004617464,"pid":2346,"hostname":"e2b.local","msg":"Running database migrations on startup..."}
+2025-09-04T16:50:17: 🗄️  Running custom database migrations...
+2025-09-04T16:50:17: {"level":30,"time":1757004617351,"pid":2346,"hostname":"e2b.local","msg":"Using OpenAPI spec: /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/shared/openapi_spec_0.yaml"}
+2025-09-04T16:50:17: 📝 First run detected - migration_log table will be created
+2025-09-04T16:50:17: 🔧 Applying migration 001-migration-log.sql
+2025-09-04T16:50:17: ❌ Error applying migration 001-migration-log.sql: AggregateError [ECONNREFUSED]: 
+2025-09-04T16:50:17:     at /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/pg-pool@3.10.1_pg@8.16.3/node_modules/pg-pool/index.js:45:11
+2025-09-04T16:50:17:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-09-04T16:50:17:     at async MigrationRunner.runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:151:24)
+2025-09-04T16:50:17:     at async runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:212:5)
+2025-09-04T16:50:17:     at async Object.<anonymous> (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/hooks/startup.hook.ts:14:7) {
+2025-09-04T16:50:17:   code: 'ECONNREFUSED',
+2025-09-04T16:50:17:   [errors]: [
+2025-09-04T16:50:17:     Error: connect ECONNREFUSED ::1:5433
+2025-09-04T16:50:17:         at createConnectionError (node:net:1678:14)
+2025-09-04T16:50:17:         at afterConnectMultiple (node:net:1708:16) {
+2025-09-04T16:50:17:       errno: -111,
+2025-09-04T16:50:17:       code: 'ECONNREFUSED',
+2025-09-04T16:50:17:       syscall: 'connect',
+2025-09-04T16:50:17:       address: '::1',
+2025-09-04T16:50:17:       port: 5433
+2025-09-04T16:50:17:     },
+2025-09-04T16:50:17:     Error: connect ECONNREFUSED 127.0.0.1:5433
+2025-09-04T16:50:17:         at createConnectionError (node:net:1678:14)
+2025-09-04T16:50:17:         at afterConnectMultiple (node:net:1708:16) {
+2025-09-04T16:50:17:       errno: -111,
+2025-09-04T16:50:17:       code: 'ECONNREFUSED',
+2025-09-04T16:50:17:       syscall: 'connect',
+2025-09-04T16:50:17:       address: '127.0.0.1',
+2025-09-04T16:50:17:       port: 5433
+2025-09-04T16:50:17:     }
+2025-09-04T16:50:17:   ]
+2025-09-04T16:50:17: }
+2025-09-04T16:50:17: {"level":50,"time":1757004617485,"pid":2346,"hostname":"e2b.local","err":{"type":"AggregateError","message":"","stack":"AggregateError [ECONNREFUSED]: \n    at /efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/node_modules/.pnpm/pg-pool@3.10.1_pg@8.16.3/node_modules/pg-pool/index.js:45:11\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MigrationRunner.runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:151:24)\n    at async runMigrations (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/db/migrations.ts:212:5)\n    at async Object.<anonymous> (/efs/org_test_user_id/apps/app_b8b8574b-6bdc-4be5-9268-7317192a5beb/backend/src/hooks/startup.hook.ts:14:7)","aggregateErrors":[{"type":"Error","message":"connect ECONNREFUSED ::1:5433","stack":"Error: connect ECONNREFUSED ::1:5433\n    at createConnectionError (node:net:1678:14)\n    at afterConnectMultiple (node:net:1708:16)","errno":-111,"code":"ECONNREFUSED","syscall":"connect","address":"::1","port":5433},{"type":"Error","message":"connect ECONNREFUSED 127.0.0.1:5433","stack":"Error: connect ECONNREFUSED 127.0.0.1:5433\n    at createConnectionError (node:net:1678:14)\n    at afterConnectMultiple (node:net:1708:16)","errno":-111,"code":"ECONNREFUSED","syscall":"connect","address":"127.0.0.1","port":5433}],"code":"ECONNREFUSED"},"msg":"Failed to run database migrations"}
+2025-09-04T16:50:17: {"level":50,"time":1757004617485,"pid":2346,"hostname":"e2b.local","msg":"Failing startup due to database migration error"}

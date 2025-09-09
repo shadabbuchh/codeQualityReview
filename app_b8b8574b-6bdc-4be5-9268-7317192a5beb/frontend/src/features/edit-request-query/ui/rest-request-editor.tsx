@@ -1,0 +1,192 @@
+import React, { useCallback, useMemo } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Input,
+  Label,
+  Button,
+} from '@/shared/ui';
+import { CodeEditor } from '@/shared/ui/code-editor';
+import type { RestRequest } from '@/entities/request-draft/model/types';
+import { Plus, Trash2 } from 'lucide-react';
+
+interface RestRequestEditorProps {
+  value: RestRequest;
+  onChange: (value: RestRequest) => void;
+  className?: string;
+}
+
+const HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'] as const;
+
+export const RestRequestEditor = React.memo<RestRequestEditorProps>(
+  ({ value, onChange, className }) => {
+    const handleMethodChange = useCallback(
+      (method: RestRequest['method']) => {
+        onChange({ ...value, method });
+      },
+      [value, onChange]
+    );
+
+    const handleUrlChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange({ ...value, url: e.target.value });
+      },
+      [value, onChange]
+    );
+
+    const handleHeaderChange = useCallback(
+      (key: string, headerValue: string) => {
+        const newHeaders = { ...value.headers };
+        if (headerValue.trim() === '') {
+          delete newHeaders[key];
+        } else {
+          newHeaders[key] = headerValue;
+        }
+        onChange({ ...value, headers: newHeaders });
+      },
+      [value, onChange]
+    );
+
+    const handleHeaderKeyChange = useCallback(
+      (oldKey: string, newKey: string) => {
+        if (oldKey === newKey) return;
+
+        const newHeaders = { ...value.headers };
+        const headerValue = newHeaders[oldKey];
+        delete newHeaders[oldKey];
+        if (newKey.trim() !== '' && headerValue !== undefined) {
+          newHeaders[newKey] = headerValue;
+        }
+        onChange({ ...value, headers: newHeaders });
+      },
+      [value, onChange]
+    );
+
+    const handleAddHeader = useCallback(() => {
+      onChange({ ...value, headers: { ...value.headers, '': '' } });
+    }, [value, onChange]);
+
+    const handleRemoveHeader = useCallback(
+      (key: string) => {
+        const newHeaders = { ...value.headers };
+        delete newHeaders[key];
+        onChange({ ...value, headers: newHeaders });
+      },
+      [value, onChange]
+    );
+
+    const handleBodyChange = useCallback(
+      (body: string) => {
+        onChange({ ...value, body });
+      },
+      [value, onChange]
+    );
+
+    const headerEntries = useMemo(
+      () => Object.entries(value.headers),
+      [value.headers]
+    );
+
+    return (
+      <div className={className}>
+        <div className="space-y-6">
+          {/* Method and URL */}
+          <div className="flex gap-3">
+            <div className="w-32">
+              <Label htmlFor="method">Method</Label>
+              <Select value={value.method} onValueChange={handleMethodChange}>
+                <SelectTrigger id="method">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {HTTP_METHODS.map(method => (
+                    <SelectItem key={method} value={method}>
+                      {method}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex-1">
+              <Label htmlFor="url">URL</Label>
+              <Input
+                id="url"
+                value={value.url}
+                onChange={handleUrlChange}
+                placeholder="https://api.example.com/users"
+              />
+            </div>
+          </div>
+
+          {/* Headers */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <Label>Headers</Label>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleAddHeader}
+                className="flex items-center gap-1"
+              >
+                <Plus className="w-4 h-4" />
+                Add Header
+              </Button>
+            </div>
+            <div className="space-y-2">
+              {headerEntries.map(([key, headerValue]) => (
+                <div key={key} className="flex gap-2">
+                  <Input
+                    value={key}
+                    onChange={e => handleHeaderKeyChange(key, e.target.value)}
+                    placeholder="Header name"
+                    className="flex-1"
+                  />
+                  <Input
+                    value={headerValue}
+                    onChange={e => handleHeaderChange(key, e.target.value)}
+                    placeholder="Header value"
+                    className="flex-1"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleRemoveHeader(key)}
+                    className="shrink-0"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              ))}
+              {headerEntries.length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-4">
+                  No headers defined. Click "Add Header" to add one.
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Body */}
+          {(value.method === 'POST' ||
+            value.method === 'PUT' ||
+            value.method === 'PATCH') && (
+            <div>
+              <Label className="mb-3 block">Request Body</Label>
+              <CodeEditor
+                value={value.body || ''}
+                onChange={handleBodyChange}
+                language="json"
+                placeholder='{"key": "value"}'
+                rows={8}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+);

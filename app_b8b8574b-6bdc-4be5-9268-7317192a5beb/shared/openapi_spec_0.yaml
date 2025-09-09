@@ -1,0 +1,523 @@
+openapi: 3.1.0
+info:
+  title: Workspace API & Database Explorer
+  version: '1.0.2'
+servers:
+  - url: /api/v1
+    description: API version 1
+paths:
+  /connections:
+    get:
+      summary: List all configured connections
+      operationId: getConnections
+      responses:
+        '200':
+          description: List of connections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Connection'
+    post:
+      summary: Create a new connection
+      operationId: createConnection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectionCreateInput'
+      responses:
+        '201':
+          description: Connection created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+  /connections/{id}:
+    get:
+      summary: Get connection by ID
+      operationId: getConnectionById
+      parameters:
+        - $ref: '#/components/parameters/ConnectionId'
+      responses:
+        '200':
+          description: Connection details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      summary: Update connection
+      operationId: updateConnection
+      parameters:
+        - $ref: '#/components/parameters/ConnectionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectionUpdateInput'
+      responses:
+        '200':
+          description: Connection updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    delete:
+      summary: Delete connection
+      operationId: deleteConnection
+      parameters:
+        - $ref: '#/components/parameters/ConnectionId'
+      responses:
+        '204':
+          description: Connection deleted
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /connections/{id}/schemas:
+    get:
+      summary: List schemas for a connection
+      operationId: getConnectionSchemas
+      parameters:
+        - $ref: '#/components/parameters/ConnectionId'
+      responses:
+        '200':
+          description: List of schemas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Schema'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /schemas/{id}/tables:
+    get:
+      summary: List tables for a schema
+      operationId: getTablesForSchema
+      parameters:
+        - $ref: '#/components/parameters/SchemaId'
+      responses:
+        '200':
+          description: List of tables
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Table'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /tables/{id}:
+    get:
+      summary: Get table by ID
+      operationId: getTableById
+      parameters:
+        - $ref: '#/components/parameters/TableId'
+      responses:
+        '200':
+          description: Table details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Table'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /tables/{id}/crud-templates:
+    get:
+      summary: Get Quick CRUD templates for table
+      operationId: getQuickCrudTemplates
+      parameters:
+        - $ref: '#/components/parameters/TableId'
+      responses:
+        '200':
+          description: CRUD templates
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  create:
+                    type: string
+                  read:
+                    type: string
+                  update:
+                    type: string
+                  delete:
+                    type: string
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /drafts:
+    post:
+      summary: Create draft (REST or SQL)
+      operationId: createDraft
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestDraftCreateInput'
+      responses:
+        '201':
+          description: Draft created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestDraft'
+  /drafts/{id}:
+    get:
+      summary: Get draft by ID
+      operationId: getDraftById
+      parameters:
+        - $ref: '#/components/parameters/DraftId'
+      responses:
+        '200':
+          description: Draft details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestDraft'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      summary: Update draft
+      operationId: updateDraft
+      parameters:
+        - $ref: '#/components/parameters/DraftId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestDraftUpdateInput'
+      responses:
+        '200':
+          description: Draft updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestDraft'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    delete:
+      summary: Delete draft
+      operationId: deleteDraft
+      parameters:
+        - $ref: '#/components/parameters/DraftId'
+      responses:
+        '204':
+          description: Draft deleted
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /drafts/{id}/validate:
+    post:
+      summary: Validate draft and return warnings
+      operationId: validateDraft
+      parameters:
+        - $ref: '#/components/parameters/DraftId'
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationWarning'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+components:
+  schemas:
+    Connection:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        type:
+          type: string
+          enum: [database, api]
+        config:
+          type: object
+        status:
+          type: string
+          enum: [active, error, disconnected]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [id, name, type, config, status, createdAt, updatedAt]
+    ConnectionCreateInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        type:
+          type: string
+          enum: [database, api]
+        config:
+          type: object
+      required: [name, type, config]
+    ConnectionUpdateInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        config:
+          type: object
+        status:
+          type: string
+          enum: [active, error, disconnected]
+      required: [name, config, status]
+    Schema:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        connectionId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [id, connectionId, name, createdAt, updatedAt]
+    Table:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        schemaId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableColumn'
+        relationships:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableRelationship'
+        validationRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationRule'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        [id, schemaId, name, columns, relationships, createdAt, updatedAt]
+    TableColumn:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        nullable:
+          type: boolean
+        default:
+          type: string
+          nullable: true
+        constraints:
+          type: array
+          items:
+            type: string
+      required: [name, type, nullable]
+    TableRelationship:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [one-to-one, one-to-many, many-to-one, many-to-many]
+        targetTable:
+          type: string
+        sourceColumn:
+          type: string
+        targetColumn:
+          type: string
+      required: [type, targetTable, sourceColumn, targetColumn]
+    ValidationRule:
+      type: object
+      properties:
+        field:
+          type: string
+        rule:
+          type: string
+        params:
+          type: object
+      required: [field, rule]
+    RequestDraft:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        connectionId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [rest, sql]
+        title:
+          type: string
+          nullable: true
+        content:
+          type: string
+        validationWarnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationWarning'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [id, connectionId, type, content, createdAt, updatedAt]
+    RequestDraftCreateInput:
+      type: object
+      properties:
+        connectionId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [rest, sql]
+        title:
+          type: string
+          nullable: true
+        content:
+          type: string
+      required: [connectionId, type, content]
+    RequestDraftUpdateInput:
+      type: object
+      properties:
+        content:
+          type: string
+        title:
+          type: string
+          nullable: true
+      required: [content]
+    ValidationWarning:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        draftId:
+          type: string
+          format: uuid
+        message:
+          type: string
+          maxLength: 255
+        field:
+          type: string
+          nullable: true
+        severity:
+          type: string
+          enum: [info, warning, error]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [id, draftId, message, severity, createdAt, updatedAt]
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: string
+        fieldErrors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+      required: [code, message]
+  parameters:
+    ConnectionId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    SchemaId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    TableId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    DraftId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ConflictError:
+      description: Resource conflict (e.g. duplicate name)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

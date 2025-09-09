@@ -1,0 +1,103 @@
+access: Open access for all users, no authentication or access restrictions.
+behaviour: Fully responsive layout; instant feedback on edits; seamless switching
+  between connections and editing modes. Persistent unsaved drafts in editors. Real-time
+  validation before commits. Interaction is keyboard- and mouse-friendly. Error handling
+  is visible and actionable.
+name: Workspace — API & Database Explorer
+page:
+  behaviour: Instant updates on selection changes, autosave of drafts, responsive
+    resizing between panels. Editors validate input on-the-fly and surface issues
+    before execution. CRUD shortcuts contextual to selected table or endpoint. All
+    results and metadata update live on execution.
+  id: workspace
+  purpose: Centralized environment for users to manage API and database connections,
+    compose and execute requests/queries, view results, and perform rapid CRUD operations.
+  sections:
+  - behaviour: Displays all configured connections on load. Selecting a connection
+      updates the browser to show available schemas/tables or API endpoints. Expands/collapses
+      tree structures to reveal schema/table details. Live status reflects connectivity.
+      Selecting a table or endpoint enables contextual actions.
+    blocks:
+    - behaviour: Lists all configured API and database connections with live status.
+        Selecting a connection loads its browser tree.
+      id: connection_list
+    - behaviour: Shows expandable hierarchy of schemas, tables, and relationships
+        for the selected database. Selecting a table highlights it for further actions.
+      id: schema_browser
+    id: connection_picker
+    title: Connection Picker
+    visual: Left sidebar with vertically stacked cards for API and database connections.
+      Each card displays connection name, icon, and status indicator. Expandable/collapsible
+      tree to browse schemas, tables, and relationships after selecting a database.
+  - behaviour: Switching tabs preserves unsaved work (drafts). REST tab allows editing
+      method, URL, headers, and body; SQL tab allows writing queries. Editors validate
+      input live and display warnings. Save action persists drafts locally. Unsaved
+      changes are retained on section switches.
+    blocks:
+    - behaviour: Allows creation and editing of REST requests (method, URL, headers,
+        body). Supports syntax highlighting, autocomplete, and inline validation for
+        required fields. Unsaved changes are autosaved as drafts.
+      id: rest_editor_tab
+    - behaviour: Allows writing and editing SQL queries with syntax highlighting,
+        autocomplete from schema browser, and real-time validation for errors or warnings.
+        Drafts are autosaved.
+      id: sql_editor_tab
+    id: editor_tabs
+    title: Request/Query Editor
+    visual: 'Central panel with tabbed interface: one tab for REST requests, another
+      for SQL queries. Each tab includes a title bar, editor area with syntax highlighting,
+      and options to save or switch between drafts. Validation warnings appear inline.'
+  - behaviour: Displays results immediately when a request/query is executed. Allows
+      switching between raw, formatted, and metadata views. All views are cleared
+      or updated on new execution. Validation warnings (if any) are shown before data
+      changes are committed.
+    blocks:
+    - behaviour: Shows unformatted raw response or result from executed request/query.
+      id: raw_response_tab
+    - behaviour: Displays prettified, structured output of the response/query result
+        (e.g., JSON tree, table preview).
+      id: formatted_view_tab
+    - behaviour: 'Shows execution metadata: HTTP status, SQL result codes, execution
+        time, row count, and any warnings. Highlights validation issues if present.'
+      id: metadata_tab
+    id: results_pane
+    title: Response / Results Pane
+    visual: Right-side panel with tabs for 'Raw Response', 'Formatted View', and 'Metadata'.
+      Color-coded indicators for status (success/error), and clearly labeled execution
+      time, status code, or error message.
+  - behaviour: Buttons become active only when a table is selected. Clicking a button
+      opens the editor prefilled with a CRUD template for that table (either SQL or
+      REST, depending on mode). Allows immediate editing and execution. Warnings appear
+      if validation rules apply to the operation.
+    blocks:
+    - behaviour: Prefills the editor with a SQL/REST template for inserting a new
+        row into the selected table.
+      id: create_button
+    - behaviour: Prefills the editor with a SQL/REST template for selecting rows from
+        the selected table.
+      id: read_button
+    - behaviour: Prefills the editor with a template for updating rows in the selected
+        table.
+      id: update_button
+    - behaviour: Prefills the editor with a template for deleting rows in the selected
+        table.
+      id: delete_button
+    id: quick_crud
+    title: Quick CRUD Shortcuts
+    visual: Contextual floating action buttons or toolbar appearing when a table is
+      selected in the schema browser. Distinct buttons/icons for Create, Read, Update,
+      Delete, each pre-populates the editor with template SQL or REST requests.
+  title: Workspace
+  visual: 'Three-column layout: left (connection/browser), center (editor with tabbed
+    interface for REST/SQL), right (results/response pane). Top bar with workspace
+    title. Clear visual separation of sections, subtle hover effects, and color-coded
+    status notifications.'
+summary: A unified workspace enabling users to interact with both API and database
+  connections. Users can test APIs, manage databases, browse schemas, compose REST
+  requests and SQL queries, view results, and perform CRUD operations. The workspace
+  features validation feedback, maintains draft edits, and surfaces connection metadata
+  and relationships to streamline development and data management tasks.
+visual: 'Modern, clean UI with primary accent color #1D4ED8 and light background.
+  Use of monospace font for editors, clear separation between navigation, editor,
+  and result areas. Tabs for REST and SQL editing, collapsible side navigation, cards
+  for connections, and subtle highlighting for validation warnings.'

@@ -1,0 +1,31 @@
+description: 'The system shall show a single landing workspace where users can access
+  API testing and database management tools.
+
+  When a user selects a database connection, the system shall display available schemas,
+  tables, and relationships.
+
+  While the user is composing an API request or SQL query, the system shall provide
+  an editable request/query editor and a results pane.
+
+  Where data validation rules are available, the system shall surface validation warnings
+  before allowing data changes.'
+id: '1'
+name: Workspace — API & Database Explorer
+page_name: Workspace
+sub_items:
+- description: When the workspace opens, the system shall list configured database
+    and API connections and let the user select one to work with.
+  id: '1.1'
+  name: Connection picker
+- description: While the user is editing, the system shall provide separate tabs for
+    REST requests (method, URL, headers, body) and SQL queries and keep unsaved drafts.
+  id: '1.2'
+  name: Request/Query editor
+- description: When a request or query is executed, the system shall show the raw
+    response, formatted view, and execution metadata (status, time).
+  id: '1.3'
+  name: Response / Results pane
+- description: Where a table is selected, the system shall show Create, Read, Update,
+    Delete shortcuts that prefill SQL or API templates for the selected table.
+  id: '1.4'
+  name: Quick CRUD buttons
